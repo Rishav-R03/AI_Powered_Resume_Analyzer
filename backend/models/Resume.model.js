@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const fileUploadSchema = mongoose.Schema({
+const resumeSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -10,7 +10,7 @@ const fileUploadSchema = mongoose.Schema({
     originalFileName: {
         type: String,
         required: true,
-        trime: true
+        trim: true // Corrected typo here
     },
     fileMimeType: {
         type: String,
@@ -42,7 +42,7 @@ const fileUploadSchema = mongoose.Schema({
             type: String,
             default: ''
         },
-        fullExtractedData: {
+        fullExtractedText: { // Consistent naming with previous discussion
             type: String,
             default: ''
         },
@@ -62,12 +62,12 @@ const fileUploadSchema = mongoose.Schema({
             max: 100,
             default: 0
         },
-        matchedKeyWords: {
+        matchedKeywords: { // Note: 'Keywords' pluralized in your code is 'KeyWords'. Stick to one style.
             type: [String],
             default: []
         },
-        missingKeyWords: {
-            type: String,
+        missingKeywords: {
+            type: [String], // CRITICAL FIX: Changed from String to [String]
             default: []
         },
         aiSuggestions: {
@@ -79,8 +79,9 @@ const fileUploadSchema = mongoose.Schema({
     },
 }, { timestamps: true });
 
-fileUploadSchema.index({ userId: 1, uploadedAt: -1 })
+resumeSchema.index({ userId: 1, uploadedAt: -1 });
 
-const FileUpload = mongoose.model("FileUpload", fileUploadSchema);
+// Renamed for consistency with the project's domain
+const Resume = mongoose.model("Resume", resumeSchema);
 
-export default FileUpload
+export default Resume;
